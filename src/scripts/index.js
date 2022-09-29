@@ -1,24 +1,47 @@
 import "../styles/main.scss";
-import "babel-polyfill"
+import "babel-polyfill";
 
 const modal = document.getElementById("myModal");
-let promiseOfModal = new Promise(function (resolve) {
-    window.setTimeout(function () {
-        resolve(modal)
-    }, (1000 * 60));
+
+function after60Seconds() {
+  return new Promise((resolve) => {
+    window.setTimeout(() => {
+      resolve(modal);
+    }, 1000 * 6);
+  });
+}
+
+const promiseOfModal = async () => {
+  const result = await after60Seconds();
+  console.log("User has been on the page for 60 seconds", result);
+  modal.style.display = "block";
+};
+
+promiseOfModal();
+
+modal.addEventListener("click", () => {
+  modal.style.display = "none";
 });
 
-promiseOfModal.then(function(val) {
-    console.log("User has been on the page for 60 seconds");
-    val.style.display = "block";
-})
+// Subscribe Alert
 
-modal.addEventListener("click", (e) => {
-    switch(e.target.className) {
-        case "close":
-        case "modal":
-        modal.style.display = "none"
-        break;
-    }
-})
+const continueB = document.querySelector("#continue");
+continueB.addEventListener("mouseover", () => {
+  subscribePromise();
+});
 
+// console.log(continueButton);
+
+function subscribe() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(continueB);
+    }, 100 * 2);
+  });
+}
+
+const subscribePromise = async () => {
+  const result = await subscribe(continueB);
+  result.style.backgroundColor = "teal";
+  alert("Continue to subscription");
+};
